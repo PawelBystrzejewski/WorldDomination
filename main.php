@@ -24,3 +24,8 @@
 
 
 //napisac html template zeby wyswietla
+
+class printAll extends Tweet{
+    static public $all= $ret2;
+    Tweet::loadAllTweets($connection);
+}
