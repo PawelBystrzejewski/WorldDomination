@@ -11,10 +11,10 @@ class Tweet {
 
 
     public function __construct() {
-        $this->id = -1;
-        $this->username = "";
-        $this->email = "";
-        $this->hashedPassword = "";
+        $this->tweetId = -1;
+        $this->userId = "";
+        $this->text = "";
+        $this->creationDate = "";
     }
 
     public function setUserId($newUserId) {
@@ -36,7 +36,7 @@ class Tweet {
     public function setCreationDate($newCreationDate) {
 
         if (is_date($newCreationDate) && $newCreationDate > 0) {
-            $this->$newCreationDate = $newCreationDate;
+            $this->creationDate= $newCreationDate;
         }
         return $this;
     }
@@ -58,10 +58,10 @@ class Tweet {
     }
 
     public function saveToDB(mysqli $connection) {
-        if ($this->id == -1) { //jezeli nowy Tweet
+        if ($this->tweetId == -1) { //jezeli nowy Tweet
 //Saving new Tweet to DB
             $sql = "INSERT INTO Tweet (user_id, text, creation_date) 
-                    VALUES ('$this-user_id', '$this->text', '$this->creationDate')"; //dokonanie inserta ale z danymmi obiektu ktore mamy
+                    VALUES ('$this->userId', '$this->text', '$this->creationDate')"; //dokonanie inserta ale z danymmi obiektu ktore mamy
 
             $result = $connection->query($sql);
 
@@ -74,7 +74,7 @@ class Tweet {
     }
 
     static public function loadTweetById(mysqli $connection, $tweetId) { //
-        $sql = "SELECT * FROM Tweet WHERE id=$tweetId";
+        $sql = "SELECT * FROM Tweet WHERE tweet_id=$tweetId";
         $result = $connection->query($sql);
 
         if ($result == true && $result->num_rows == 1) {  // zwraca nam 
@@ -90,7 +90,7 @@ class Tweet {
     }
 
     static public function loadAllTweetByUserId(mysqli $connection, $userId) { //POBIERANIE WSZYSTKICH UZYTKOWNIKOW
-        $sql = "SELECT * FROM Tweet WHERE user_id=$userId";
+        $sql = "SELECT * FROM Tweet WHERE user_id=$userId ORDER BY creation_date DESC";
         $ret1 = [];
         $result = $connection->query($sql);
         if ($result == true && $result->num_rows != 0) { //wynik przypisujemy do return, jezeli wynik sie udal to wtedy foreachem kazdy rzad z naszego resulta i na koniec pakujemy do tablic red. RObimy tak dlugo az sa uzytkownicy i na koniec ret
@@ -107,12 +107,13 @@ class Tweet {
     }
 
     static public function loadAllTweets(mysqli $connection) { //POBIERANIE WSZYSTKICH UZYTKOWNIKOW
-        $sql = "SELECT * FROM Tweet";
+        $sql = "SELECT * FROM Tweet ORDER BY creation_date DESC";
         static $ret2 = [];
         $result = $connection->query($sql);
+        
         if ($result == true && $result->num_rows != 0) { //wynik przypisujemy do return, jezeli wynik sie udal to wtedy foreachem kazdy rzad z naszego resulta i na koniec pakujemy do tablic red. RObimy tak dlugo az sa uzytkownicy i na koniec ret
             foreach ($result as $row) {
-                $loadedTweet = new Tweet(); //nowy obiekt klasy users
+                $loadedTweet = new Tweet(); //nowy obiekt klasy Tweet
                 $loadedTweet->tweetId = $row['tweet_id']; //przypisuje wartosc ktore pobralismy z bazy
                 $loadedTweet->userId = $row['user_id'];
                 $loadedTweet->text = $row['text'];
@@ -126,4 +127,4 @@ class Tweet {
 
 }
 
-echo $ret2
+

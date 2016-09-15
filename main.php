@@ -29,3 +29,18 @@ class printAll extends Tweet{
     static public $all= $ret2;
     Tweet::loadAllTweets($connection);
 }
+
+<!doctype html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<ul>
+    <textera></textera>
+        
+</ul>
+
+</body>
+</html>
