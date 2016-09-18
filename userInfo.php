@@ -14,3 +14,24 @@
 
 
 //wyswietl dane uzytkownika
+
+
+require_once 'src/connection.php';
+require_once 'src/init.php';
+require_once 'src/User.php';
+require_once 'src/Tweet.php';
+require_once 'src/Comment.php';
+if(!isset($_SESSION['loggedUserId'])) {
+    
+    header('Location: login.php');
+    
+} else {
+    
+    $loggedUserId = $_SESSION['loggedUserId'];
+    
+    $loggedUser = Users::loadUserById($conn, $loggedUserId);
+    
+    echo "You are logged as:" .  $loggedUser->getUsername();
+    echo "<a href='logout.php'>Logout</a><br>";
+    
+}

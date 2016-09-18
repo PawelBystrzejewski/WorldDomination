@@ -8,3 +8,8 @@ and open the template in the editor.
     Author     : pawel
 */
 
+label.pole{
+    display: block;
+    width: 500px;
+    padding: 5px;
+}

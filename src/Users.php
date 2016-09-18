@@ -52,7 +52,7 @@ class Users {
             $result = $connection->query($sql);
 
             if ($result == true) {
-                $this->id = $connection->insert_id; //jezeli uda sie dodac to nada numer wg bazy
+                $this->user_id = $connection->insert_id; //jezeli uda sie dodac to nada numer wg bazy
                 return true;
             }
         } else { //slajd 25 jezeli id rozne od -1 to znaczy ze pracujemy na obiekcie ktory juz pobralismy z bazy
@@ -75,7 +75,7 @@ class Users {
         if ($result == true && $result->num_rows == 1) {  // zwraca nam 
             $row = $result->fetch_assoc(); //zwraca jako tablice asocajacyjna czyli tablice gdzie jako klucze sa nazwy naszych kolumn
             $loadedUser = new Users(); //nowy obiekt klasy users
-            $loadedUser->id = $row['id']; //przypisuje wartosc ktore pobralismy z bazy
+            $loadedUser->id = $row['user_id']; //przypisuje wartosc ktore pobralismy z bazy
             $loadedUser->username = $row['username'];
             $loadedUser->hashedPassword = $row['hashed_password'];
             $loadedUser->email = $row['email'];
@@ -91,7 +91,7 @@ class Users {
         if ($result == true && $result->num_rows != 0) { //wynik przypisujemy do return, jezeli wynik sie udal to wtedy foreachem kazdy rzad z naszego resulta i na koniec pakujemy do tablic red. RObimy tak dlugo az sa uzytkownicy i na koniec ret
             foreach ($result as $row) {
                 $loadedUser = new Users();
-                $loadedUser->id = $row['id'];
+                $loadedUser->id = $row['user_id'];
                 $loadedUser->username = $row['username'];
                 $loadedUser->hashedPassword = $row['hashed_password'];
                 $loadedUser->email = $row['email'];
@@ -99,6 +99,27 @@ class Users {
             }
         }
         return $ret;
+    }
+
+    static public function loadUserByEmail(mysqli $connection, $email) {
+
+        $sql = "SELECT * FROM user WHERE email='$email'";
+
+        $result = $connection->query($sql);
+
+        if ($result && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+
+            $loadedUser = new User();
+            $loadedUser->id = $row['user_id'];
+            $loadedUser->username = $row['username'];
+            $loadedUser->hashedPassword = $row['hashed_password'];
+            $loadedUser->email = $row['email'];
+
+            return $loadedUser;
+        }
+
+        return null;
     }
 
     public function delete(mysqli $connection) {

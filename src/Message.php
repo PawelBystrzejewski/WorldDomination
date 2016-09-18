@@ -18,46 +18,46 @@ class Message {
         $this->read = " ";
     }
 
-    function setSenderId($newSenderId) {
+    public function setSenderId($newSenderId) {
         $this->senderId = $newSenderId;
     }
 
-    function setReceiverId($newReceiverId) {
+    public function setReceiverId($newReceiverId) {
         $this->receiverId = $newReceiverId;
     }
 
-    function setCreationDate($newCreationDate) {
+    public function setCreationDate($newCreationDate) {
         $this->creationDate = $newCreationDate;
     }
 
-    function setText($newText) {
+    public function setText($newText) {
         $this->text = $newText;
     }
 
-//    function setRead($read) {
+//    public function setRead($read) {
 //        $this->read = $read;
 //    }
-//    function getMessage_id() {
-//        return $this->message_id;
-//    }
+    public function getMessage_id() {
+        return $this->message_id;
+    }
 
-    function getSenderId() {
+    public function getSenderId() {
         return $this->senderId;
     }
 
-    function getReceiverId() {
+    public function getReceiverId() {
         return $this->receiverId;
     }
 
-    function getCreationDate() {
+    public function getCreationDate() {
         return $this->creationDate;
     }
 
-    function getText() {
+    public function getText() {
         return $this->text;
     }
 
-    function getRead() {
+    public function getRead() {
         return $this->read;
     }
 
@@ -110,7 +110,7 @@ class Message {
                 $loadedMessage->senderId = $row['sender_id'];
                 $loadedMessage->receiverId = $row['receiver_id'];
                 $loadedMessage->creationDate = $row['creation_date'];
-//                $loadedMessage->text = $row['text'];
+                $loadedMessage->text = substr($row['text'], 0, 30);
                 $loadedMessage->read = $row['przeczytane'];
                 $ret[] = $loadedMessage;
             }
@@ -131,7 +131,7 @@ class Message {
                 $loadedMessage->senderId = $row['sender_id'];
                 $loadedMessage->receiverId = $row['receiver_id'];
                 $loadedMessage->creationDate = $row['creation_date'];
-//                $loadedMessage->text = $row['text'];
+                $loadedMessage->text = substr($row['text'], 0, 30);
                 $loadedMessage->read = $row['przeczytane'];
                 $ret[] = $loadedMessage;
             }

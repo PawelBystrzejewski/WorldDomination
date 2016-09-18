@@ -24,6 +24,12 @@
 
 
 //napisac html template zeby wyswietla
+<?php
+require_once 'src/connection.php';
+require_once 'src/init.php';
+require_once 'src/Users.php';
+require_once 'src/Tweet.php';
+
 
 class printAll extends Tweet{
     static public $all= $ret2;
